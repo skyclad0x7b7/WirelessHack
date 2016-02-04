@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
 
     QObject::connect(&scannerThread, SIGNAL(started()), &scanner, SLOT(doStart()));
-
+    QObject::connect(&scanner, SIGNAL(captured()), this, SLOT(printIt()));
 }
 
 Widget::~Widget()
@@ -24,4 +24,8 @@ void Widget::on_pushButton_clicked()
 
     scanner.moveToThread(&scannerThread);
     scannerThread.start();
+}
+
+void Widget::printIt(){
+    cout << "Hello World!!" << endl;
 }

@@ -12,14 +12,13 @@
 
 #include <QWidget>
 #include <QTreeWidgetItem>
-#include <QThread>
 #include <QList>
 #include <QDebug>
 #include <QTimer>
 #include <QProcess>
 #include <QFileDialog>
 #include <QObject>
-
+#include <QString>
 using namespace std;
 
 #pragma pack(push, 1)
@@ -28,7 +27,8 @@ typedef struct MyClass {
     u_char dest[18];
     u_char bss[18];
     char timestamp[100];
-
+    char ssid[256];
+    u_int enc;
 } MC ;
 #pragma pack(pop)
 
@@ -49,6 +49,17 @@ typedef struct ieee80211_wlan_management {
     u_int16_t beacon_interval;
     u_int16_t capabilities_information;
 } IEEE80211 ;
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+typedef struct AP_Info {
+    QString AP;
+    u_int8_t STA_Count;
+    u_int8_t Channel;
+    QString ENC;
+    u_int Datas;
+    QString BSSID;
+} Info ;
 #pragma pack(pop)
 
 

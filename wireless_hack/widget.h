@@ -27,16 +27,14 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
 private:
     Ui::Widget *ui;
 
     Scanner scanner;
     QThread scannerThread;
 
-
-
-
+public slots:
+    void printIt();
 };
 
 #endif // WIDGET_H
