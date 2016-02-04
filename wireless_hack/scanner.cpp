@@ -1,17 +1,23 @@
 #include "scanner.h"
 
-Scanner::Scanner()
+
+Scanner::Scanner(QObject *parent) : QObject(parent)
 {
-    strcpy(this->dev, "wlan0");
+    myclass = new MC();
+    ieee = new IEEE80211;
+    bf_header = new BF_header;
+    strcpy(this->dev, "wlan1");
     this->handle = pcap_open_live(this->dev, BUFSIZE, 1, 10, this->errBuf);
     if(handle == NULL){
         fprintf(stderr, "Couldn't open device %s : %s\n", "wlan0", this->dev, errBuf);
         printf("%s\n", this->dev);
         exit(1);
     }
+    cout << "[*] Scanner Created" << endl;
 }
 
-Scanner::Scanner(char *device)
+
+/*Scanner::Scanner(char *device)
 {
     myclass = new MC();
     ieee = new IEEE80211;
@@ -24,7 +30,7 @@ Scanner::Scanner(char *device)
         exit(1);
     }
     cout << "[*] Scanner Created" << endl;
-}
+}*/
 
 Scanner::~Scanner()
 {
@@ -33,9 +39,19 @@ Scanner::~Scanner()
     delete bf_header;
 }
 
-void Scanner::run()
+void Scanner::startScan()
 {
-    while(!isFinished())
+    cout << "Start" << endl;
+}
+
+void Scanner::stopScan()
+{
+
+}
+
+void Scanner::doStart()
+{
+    while(true)
     {
         int res = pcap_next_ex(handle, &pkthdr, &data);
         if (res == 0) continue;
@@ -74,16 +90,4 @@ void Scanner::run()
         cout << "[*] SRC : " << myclass->src << "    DEST : " << myclass->dest << "    BSS : " << myclass->bss;
         printf("    Time : %u\n", tm);
     }
-}
-
-void Scanner::startScan()
-{
-    cout << "Start" << endl;
-    this->start();
-}
-
-void Scanner::stopScan()
-{
-    this->terminate();
-    this->wait();
 }

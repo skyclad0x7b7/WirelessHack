@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-02-01T23:27:25
+# Project created by QtCreator 2016-02-04T22:31:41
 #
 #-------------------------------------------------
 
@@ -13,12 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    scanner.cpp
+        widget.cpp \
+    scanner.cpp \
+    devicedialog.cpp
 
-HEADERS  += mainwindow.h \
-    scanner.h
+HEADERS  += widget.h \
+    scanner.h \
+    devicedialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += widget.ui \
+    devicedialog.ui
 
 LIBS += -lpcap

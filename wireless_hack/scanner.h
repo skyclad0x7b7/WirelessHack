@@ -18,6 +18,7 @@
 #include <QTimer>
 #include <QProcess>
 #include <QFileDialog>
+#include <QObject>
 
 using namespace std;
 
@@ -51,10 +52,10 @@ typedef struct ieee80211_wlan_management {
 #pragma pack(pop)
 
 
-class Scanner : public QThread
+class Scanner : public QObject
 {
+    Q_OBJECT
 private:
-    virtual void run();
     MC *myclass;
     IEEE80211 *ieee;
     BF_header *bf_header;
@@ -65,13 +66,17 @@ private:
     pcap_t *handle;
 
 public:
-    Scanner(char *);
-    Scanner();          // Constructor
+    explicit Scanner(QObject *parent = 0);
 
     ~Scanner();         // Destructor
 
     void startScan();
     void stopScan();
+signals:
+    void captured();
+
+public slots:
+    void doStart();
 };
 
 #endif // SCANNER_H

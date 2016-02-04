@@ -1,31 +1,27 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "widget.h"
+#include "ui_widget.h"
 
-MainWindow::MainWindow(QMainWindow *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+Widget::Widget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget)
 {
-    this->sc = new Scanner("wlan0");
     ui->setupUi(this);
+
+    QObject::connect(&scannerThread, SIGNAL(started()), &scanner, SLOT(doStart()));
+
 }
 
-MainWindow::~MainWindow()
+Widget::~Widget()
 {
     delete ui;
-    delete sc;
 }
 
-void MainWindow::startScan(){
-
-}
-
-void MainWindow::on_pushButton_clicked()
+void Widget::on_pushButton_clicked()
 {
-    MainWindow::sc->startScan();
+    DeviceDialog deviceDialog;
+    deviceDialog.show();
+    deviceDialog.exec();
 
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    MainWindow::sc->stopScan();
+    scanner.moveToThread(&scannerThread);
+    scannerThread.start();
 }

@@ -1,34 +1,42 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef WIDGET_H
+#define WIDGET_H
 
-#include <QMainWindow>
+#include <QWidget>
+#include <QTreeWidgetItem>
+#include <QThread>
+#include <QList>
+#include <QDebug>
+#include <QTimer>
+#include <QProcess>
+#include <QFileDialog>
+
 #include "scanner.h"
-
+#include "devicedialog.h"
 
 namespace Ui {
-class MainWindow;
+class Widget;
 }
 
-class MainWindow : public QMainWindow
+class Widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QMainWindow *parent = 0);
-    ~MainWindow();
-
-    void startScan();
+    explicit Widget(QWidget *parent = 0);
+    ~Widget();
 
 private slots:
     void on_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
-
 private:
-    Ui::MainWindow *ui;
-    Scanner *sc;
+    Ui::Widget *ui;
+
+    Scanner scanner;
+    QThread scannerThread;
+
+
+
+
 };
 
-
-
-#endif // MAINWINDOW_H
+#endif // WIDGET_H

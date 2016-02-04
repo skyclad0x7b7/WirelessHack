@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>602</width>
+    <height>566</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>20</y>
+     <width>601</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>scanner</string>
+    </attribute>
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>591</width>
+       <height>481</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>AP</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>STA Count</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>CHANNEL</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>ENC</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>DATAs</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>BSSID</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>480</y>
+       <width>291</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>START</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>480</y>
+       <width>291</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>STOP</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Nothing</string>
+    </attribute>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
