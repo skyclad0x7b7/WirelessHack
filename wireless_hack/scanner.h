@@ -9,6 +9,7 @@
 #include <string.h>
 #include <QThread>
 #include <time.h>
+#include <cstddef>
 
 #include <QWidget>
 #include <QTreeWidgetItem>
@@ -58,10 +59,21 @@ typedef struct AP_Info {
     u_int8_t Channel;
     QString ENC;
     u_int Datas;
+    int Signal;
     QString BSSID;
 } Info ;
 #pragma pack(pop)
 
+enum scannerColumns
+{
+    SCANNER_COLUMN_AP,
+    SCANNER_COLUMN_STA_COUNT,
+    SCANNER_COLUMN_CHANNEL,
+    SCANNER_COLUMN_ENCRYPT,
+    SCANNER_COLUMN_DATAS,
+    SCANNER_COLUMN_SIGNAL,
+    SCANNER_COLUMN_BSSID
+};
 
 class Scanner : public QObject
 {
@@ -84,10 +96,11 @@ public:
     void startScan();
     void stopScan();
 signals:
-    void captured();
+    void captured(Info);
 
 public slots:
     void doStart();
 };
+
 
 #endif // SCANNER_H

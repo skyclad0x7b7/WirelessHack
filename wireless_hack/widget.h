@@ -34,7 +34,7 @@ private:
     QThread scannerThread;
 
 public slots:
-    void printIt();
+    void tempFunc(Info);
 };
 
 #endif // WIDGET_H

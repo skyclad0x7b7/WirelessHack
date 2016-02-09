@@ -1,5 +1,6 @@
 #include "scanner.h"
 
+bool isAsciiString(char *, int);
 
 Scanner::Scanner(QObject *parent) : QObject(parent)
 {
@@ -63,29 +64,31 @@ void Scanner::doStart()
         memcpy(ieee, data, 12);                  // Fixed 802.11 Header
         data += 12;
         int len2 = pkthdr->caplen - (18+0x18+12);
+
         const u_char *data2 = data;
+
+        memset(myclass->ssid, 0, sizeof(myclass->ssid));
         myclass->enc = 0;
 
         while((data2 - data) < len2)
         {
             if(data2[0] == IEEE80211_SSID){
-                strcpy(myclass->ssid, (const char *)data2+2);
-                myclass->ssid[data2[1]] = 0;
-                if(strlen(myclass->ssid) == 0) {
+                strncpy(myclass->ssid, (const char *)(data2+2), data2[1]);
+                myclass->ssid[data2[1]] = '\x00';
+                if(strlen(myclass->ssid) == 0 && !isAsciiString(myclass->ssid, data[1])) {
                     strcpy(myclass->ssid, "Broadcast");
                 }
-                if(data2[1] == 0) data2 += 2;
-                else data2 += data2[1];
+                data2 += data2[1] + 2;
                 continue;
             }
-            if(data2[0] == 48) { // wpa2
+            if(data2[0] == 0x30) { // wpa2
                 myclass->enc += 2;
                 data2 += data2[1]+2;
                 continue;
             }
-            if(data2[0] == (char)221) {
+            if(data2[0] == 0xdd) { // wpa
                 int j=0;
-                for(j=0; j<data2[1]; j++) if(!memcmp(data2+2+j, "\x00\x50\xf2\x01\x01\x00", 6)) {
+                for(j=0; j < (data2[1] - 6); j++) if(!memcmp(data2+2+j, "\x00\x50\xf2\x01\x01\x00", 6)) {
                         myclass->enc += 1;
                         break;
                     }
@@ -115,20 +118,19 @@ void Scanner::doStart()
         }
 
         sprintf((char *)myclass->bss, "%02X:%02X:%02X:%02X:%02X:%02X", bf_header->bss[0], bf_header->bss[1], bf_header->bss[2], bf_header->bss[3], bf_header->bss[4], bf_header->bss[5]);
-        //sprintf((char *)myclass->dest, "%02X:%02X:%02X:%02X:%02X:%02X", bf_header->dest[0], bf_header->dest[1], bf_header->dest[2], bf_header->dest[3], bf_header->dest[4], bf_header->dest[5]);
-        //sprintf((char *)myclass->src, "%02X:%02X:%02X:%02X:%02X:%02X", bf_header->src[0], bf_header->src[1], bf_header->src[2], bf_header->src[3], bf_header->src[4], bf_header->src[5]);
 
         info.BSSID = QString((char *)myclass->bss);
         info.AP = QString((char *)myclass->ssid);
-        //time_t tm;
-        //time(&tm);
 
-        //cout << "[*] SRC : " << myclass->src << "    DEST : " << myclass->dest << "    BSS : " << myclass->bss;
-        //printf("    Time : %u\n", tm);
-
-        //printf("Channel : %d AP : ", info.Channel);
-        cout << qPrintable(info.AP) << " : " << qPrintable(info.BSSID) << " ENC : " << qPrintable(info.ENC);
-        printf("%d\n", myclass->enc);
-        emit captured();
+        cout << qPrintable(info.AP) << " : " << qPrintable(info.BSSID) << " ENC : " << qPrintable(info.ENC) << endl;
+        emit captured(info);
     }
+}
+
+bool isAsciiString(char *target, int length)
+{
+    for(int i=0; i<length; i++){
+        if(target[i] <= 0) return false;
+    }
+    return true;
 }

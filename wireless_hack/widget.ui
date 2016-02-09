@@ -65,6 +65,11 @@
      </column>
      <column>
       <property name="text">
+       <string>Signal</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>BSSID</string>
       </property>
      </column>
