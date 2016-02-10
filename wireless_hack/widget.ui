@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>602</width>
-    <height>566</height>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>0</x>
      <y>20</y>
      <width>601</width>
-     <height>541</height>
+     <height>561</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -33,7 +33,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
+       <y>30</y>
        <width>591</width>
        <height>481</height>
       </rect>
@@ -65,11 +65,6 @@
      </column>
      <column>
       <property name="text">
-       <string>Signal</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>BSSID</string>
       </property>
      </column>
@@ -78,7 +73,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>480</y>
+       <y>510</y>
        <width>291</width>
        <height>23</height>
       </rect>
@@ -91,13 +86,26 @@
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>480</y>
+       <y>510</y>
        <width>291</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
       <string>STOP</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="channelLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Channel : 1</string>
      </property>
     </widget>
    </widget>

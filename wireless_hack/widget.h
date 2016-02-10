@@ -1,6 +1,8 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#define MAX_CHANNEL 13
+
 #include <QWidget>
 #include <QTreeWidgetItem>
 #include <QThread>
@@ -29,12 +31,15 @@ private slots:
     void on_pushButton_clicked();
 private:
     Ui::Widget *ui;
-
+    int currentChannel;
     Scanner scanner;
     QThread scannerThread;
+    QTimer timer;
+    QThread timerThread;
 
 public slots:
     void tempFunc(Info);
+    void changeChannel();
 };
 
 #endif // WIDGET_H

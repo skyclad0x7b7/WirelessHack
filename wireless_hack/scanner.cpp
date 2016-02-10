@@ -1,13 +1,13 @@
 #include "scanner.h"
 
-bool isAsciiString(char *, int);
+bool isPrintableString(char *, int);
 
 Scanner::Scanner(QObject *parent) : QObject(parent)
 {
     myclass = new MC();
     ieee = new IEEE80211;
     bf_header = new BF_header;
-    strcpy(this->dev, "wlan1");
+    strcpy(this->dev, "wlan0");
     this->handle = pcap_open_live(this->dev, BUFSIZE, 1, 10, this->errBuf);
     if(handle == NULL){
         fprintf(stderr, "Couldn't open device %s : %s\n", "wlan0", this->dev, errBuf);
@@ -73,9 +73,9 @@ void Scanner::doStart()
         while((data2 - data) < len2)
         {
             if(data2[0] == IEEE80211_SSID){
-                strncpy(myclass->ssid, (const char *)(data2+2), data2[1]);
+                memcpy(myclass->ssid, (const char *)(data2+2), data2[1]);
                 myclass->ssid[data2[1]] = '\x00';
-                if(strlen(myclass->ssid) == 0 && !isAsciiString(myclass->ssid, data[1])) {
+                if(strlen(myclass->ssid) == 0 || !isPrintableString(myclass->ssid, data[1])) {
                     strcpy(myclass->ssid, "Broadcast");
                 }
                 data2 += data2[1] + 2;
@@ -122,15 +122,22 @@ void Scanner::doStart()
         info.BSSID = QString((char *)myclass->bss);
         info.AP = QString((char *)myclass->ssid);
 
-        cout << qPrintable(info.AP) << " : " << qPrintable(info.BSSID) << " ENC : " << qPrintable(info.ENC) << endl;
+        if(  info.BSSID.contains(QString("01:00:5E"))
+                            || info.BSSID.contains(QString("33:33:FF"))
+                            || info.BSSID.contains(QString("33:33:00"))
+                            || info.BSSID.contains(QString("01:80:C2:00:00:00"))
+                            || info.BSSID.contains(QString("00:00:00:00:00:00"))
+                            || info.BSSID.contains(QString("FF:FF:FF:FF:FF:FF"))  )
+                        continue;
+
         emit captured(info);
     }
 }
 
-bool isAsciiString(char *target, int length)
+bool isPrintableString(char *target, int length)
 {
-    for(int i=0; i<length; i++){
-        if(target[i] <= 0) return false;
+    for(int i=0; i< length; i++){
+        if(target[i] < 32) return false;
     }
     return true;
 }

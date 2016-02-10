@@ -71,7 +71,6 @@ enum scannerColumns
     SCANNER_COLUMN_CHANNEL,
     SCANNER_COLUMN_ENCRYPT,
     SCANNER_COLUMN_DATAS,
-    SCANNER_COLUMN_SIGNAL,
     SCANNER_COLUMN_BSSID
 };
 
@@ -102,5 +101,20 @@ public slots:
     void doStart();
 };
 
+
+class ChangeChannel : public QThread {
+protected:
+    virtual void run(){
+        char cmd[30] = {0};
+        int i=1;
+        while(!isFinished()){
+            sprintf(cmd, "iwconfig wlan0 channel %d", i);
+            sleep(2);
+            system(cmd);
+            printf("[*][*] Channel Changed To : < %2d >\n", i++);
+            if(i == 14) i = 1;
+        }
+    }
+};
 
 #endif // SCANNER_H
