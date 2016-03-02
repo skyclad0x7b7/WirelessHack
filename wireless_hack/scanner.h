@@ -61,6 +61,7 @@ typedef struct AP_Info {
     u_int Datas;
     int Signal;
     QString BSSID;
+    QString StationAddr;
 } Info ;
 #pragma pack(pop)
 
@@ -98,7 +99,7 @@ signals:
     void captured(Info);
 
 public slots:
-    void doStart();
+   void doStart();
 };
 
 

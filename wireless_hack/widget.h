@@ -38,7 +38,7 @@ private:
     QThread timerThread;
 
 public slots:
-    void tempFunc(Info);
+    void setItem(Info);
     void changeChannel();
 };
 
